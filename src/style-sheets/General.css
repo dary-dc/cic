@@ -1,3 +1,38 @@
+.printable-table {
+    width: 100%; /* Asegúrate de que las tablas ocupen el ancho completo */
+    border-collapse: collapse; /* Para evitar espacios entre celdas */
+    margin-bottom: 20px; /* Espacio entre las tablas */
+}
+
+.printable-table th, .printable-table td {
+    border: 1px solid #000; /* Agrega bordes a las celdas */
+    padding: 8px; /* Espaciado interno */
+    text-align: left; /* Alineación del texto */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px; 
+}
+
+.centered-table {
+    margin: 0 auto; /* Centra la tabla */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 #custom-table {
     margin-top: .6%;
     box-shadow: 0 2px 3px #77777733;
@@ -18,14 +53,23 @@
     cursor: pointer;
 }
 
+.side-form .blue-border{
+    width: 100%;
+}
 .close-handler-container:hover .error-svg{
     fill: rgb(255, 0, 0);
 }
 
-.select-alternative .custom-select {
+.select-alternative.custom-select-container  .custom-select-flex-header-content{
+    grid-template-columns: 20% 10%;
+}
+
+.select-alternative .custom-select,.select-alternative.custom-select-container {
     border: none;
     padding: 0 .5em;
+    width: 4vw;
 }
+
 .disabled{
     fill: #9494949d;
 }
@@ -53,7 +97,8 @@
 .TableContainer{
     width: 100%;
     display: grid;
-    margin-top: 3vw;
+    margin-top: 4vw;
+    padding-top: 0;
     grid-template-columns: 20% 77%;
     gap: 3em;
     justify-content: center;
@@ -63,15 +108,9 @@
     max-width: unset;
     padding: .33vw;
 }
-input{
-    padding: .7em 1.5em;
-    font-size: var(--fnt-sz016);
-}
+
 td input{
     font-size: var(--fnt-sz016);
-}
-#rep-graph{
-    grid-column: 2/3;
 }
 .parent-svg:hover{
     cursor: pointer;
@@ -85,13 +124,13 @@ div.no-margin-top{
 .no-margin{
     margin: 0;
 }
-.about-card1-svg,.about-card7-svg,.about-card6-svg,.about-card5-svg,.about-card4-svg,.about-card3-svg,.about-card2-svg{
+.temperature-svg,.method-svg,.pattern-svg,.equipment-svg,.component-svg,.about-card1-svg,.about-card7-svg,.about-card6-svg,.about-card5-svg,.about-card4-svg,.about-card3-svg,.about-card2-svg{
     height: 2vw;
 }
-.id-card,.cancel-svg,.trash-svg,.success-svg,.error-svg,.print-svg,.download-csv-svg,.password-svg,.user-svg{
+.concentration-serum-svg,.id-card,.cancel-svg,.trash-svg,.success-svg,.error-svg,.print-svg,.download-csv-svg,.password-svg,.user-svg{
     height: 1.5vw;
 }
-.exit-arrow-svg,.concentration-serum-svg,.serum-svg,.help-svg,.n-svg,.quality-control-svg,.d1d2-svg,.d1-and-d2-svg,.date-svg,.search-svg,.component-svg,.pattern-svg,.method-svg,.institution-svg,.equipment-svg,.concentration-svg,.temperature-svg{
+.exit-arrow-svg,.serum-svg,.help-svg,.n-svg,.quality-control-svg,.d1d2-svg,.d1-and-d2-svg,.date-svg,.search-svg,.institution-svg,.concentration-svg{
     width: 1.2vw;
     height: 1.2vw;
 }
@@ -112,7 +151,7 @@ div.column-flex{
 .cls-1 {
     fill: none;
 }
-.ContInpPlaceholder .password-svg,.ContInpPlaceholder .user-svg{
+.container-Input-placeholder .password-svg,.container-Input-placeholder .user-svg{
     fill:#fff;
 }
 form.extra-gap,div.extra-gap{
@@ -177,7 +216,7 @@ div.container-trash{
     justify-content: flex-start;
 }
 
-#add-svg,.update-data-icons .trash-svg{
+.table-container .add-svg,.update-data-icons .trash-svg{
     transform: scale(60%);
     fill: #fff;
 }
@@ -188,15 +227,12 @@ div.center-flex{
 .error svg{
     fill: rgb(255, 0, 0);
 }
-.error input,.error div.custom-select{
-    background-color: rgb(255, 160, 136);
-    border: 1px solid rgb(255, 0, 0);
-}
+
 div.error label.placeholder,div.error span{
     color: rgb(255, 0, 0);
 }
 
-.ContInpPlaceholder{
+.container-Input-placeholder{
     display: flex;
     gap: 1em;
     align-items: center;
@@ -219,15 +255,19 @@ div.error label.placeholder,div.error span{
     padding: 2em;
     margin: 0 auto;
 }
-.ContInpPlaceholder .placeholder{
+.container-Input-placeholder{
+    position: relative;
+}
+
+.container-Input-placeholder .placeholder{
     position: absolute;
-    margin-left: 4em;
+    margin-left: 2.5vw;
     color: #585858;
     font-size: var(--fnt-sz014);
     transition: margin .7s;
 }
 
-.ContInpPlaceholder .placeholder.placeholder-alt{
+.container-Input-placeholder .placeholder.placeholder-alt{
     margin-left: 3.2vw;
 }
 
@@ -247,11 +287,11 @@ div.error label.placeholder,div.error span{
     align-items: center;
 }
 
-.ContInpPlaceholder
+.container-Input-placeholder
 .left-alignment,.left-alignment{
     text-align: left;
 }
-.ContInpPlaceholder label{
+.container-Input-placeholder label{
     cursor:text;
 }
 .ContInpCheckbox input{
@@ -285,8 +325,14 @@ label.custom-label{
     align-items: center;
     width: 13em;
 }
-.ContInpPlaceholder input:valid~.placeholder,
-.ContInpPlaceholder input:focus~.placeholder{
+.container-Input-placeholder .calendar-valid ~ .placeholder{
+    display: block;
+    margin-left: 4em;
+    margin-top: -4.4em;
+}
+
+.container-Input-placeholder input:valid ~ .placeholder,
+.container-Input-placeholder input:focus ~ .placeholder{
     display: block;
     margin-left: 4em;
     margin-top: -4.4em;
@@ -312,10 +358,15 @@ input.extra-width {
 
 
 .medium-height{
-    height: 2vw;
+    height: 1.9vw;
 }
+
+.huge-height{
+    height: 2.3vw;
+}
+
 input.medium-width {
-    width: 10vw;
+    width: 11vw;
 }
 
 input.large-width {
@@ -326,6 +377,11 @@ input.large-width {
     font-size: var(--fnt-sz016);
     /* color: rgb(93, 93, 255); */
 }
+
+.form-input.temperature-input{
+    width: 5.5vw;
+}
+
 /* .custom-input */
 input.small-width {
     width: 100%;
@@ -341,11 +397,19 @@ div.no-margin {
     margin: 0;
 }
 
+section{
+    min-height: 30vw;
+}
+
+form.side-form.report-side-form{
+    padding: 9vw 1vw;
+}
+
 form.side-form {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 1vw;
+    padding: 3vw 1vw;
     align-items: center;
     font-size: var(--fnt-sz016);
     gap: 2vw;
@@ -365,17 +429,17 @@ div.container.short-margin-top,.short-margin-top {
     margin-left: 2em;
 }
 
-#submitFormButton {
+#form-action-button,.form-action-button {
     background-color: var(--principal_color);
     color: #fff;
     cursor: pointer;
     font-size: var(--fnt-sz016);
-    width: max-content;
-    padding: .5em 5em;
+    width: 13vw;
+    padding: .5vw;
     height: max-content;
 }
 
-#submitFormButton:hover {
+#form-action-button:hover,.form-action-button:hover {
     filter: saturate(60%);
 }
 
@@ -418,7 +482,7 @@ div.right-alignment {
 .blue-border {
     border: 1px solid var(--principal_color);
     border-radius: .3em;
-    width: 7vw;
+    width: 90%;
     text-align: center;
 }
 .small-height{
@@ -497,11 +561,13 @@ p.no-data-paragraph {
     text-align: center;
 }
 .custom-select-wrapper{
-    width: 13em;
+    width: 10.5vw;
 }
 .custom-select-wrapper-small{
-    width: 6em;
+    width: 4vw;
 }
+
+
 .capitalize-text .custom-select-dropdown-content .custom-select-dropdown-option{
     text-transform: capitalize;
 }
@@ -518,4 +584,48 @@ p.no-data-paragraph {
     .grid-4-columns{
         grid-template-columns: 95%;
     }
+}
+
+
+body .centered-table{
+    top: unset;
+    left: unset;
+    page-break-inside: avoid;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background-color: white;
+    font-size: 14px;
+    overflow: hidden;
+    position: unset;
+  }
+  
+body .centered-table td {
+    border: 1px solid #4f4f4f5c;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; 
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
+    padding: 8px; 
+
+}
+ 
+@media print {
+    html body *:not(.table-container):not(.table-container *):not(.printable-table):not(.printable-table *) {
+        display: none;
+    }
+    
+    div.report-graph{
+        width: 100%;
+    }
+
+    body div.table-container,body div.table-container *,body .printable-table,body .printable-table * {
+        display: revert !important;
+        visibility:visible !important;
+        margin: 20px auto;
+        background-color: #f0f0f0;
+    }
+    
 }

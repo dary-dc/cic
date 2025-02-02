@@ -1,0 +1,180 @@
+body {
+  scroll-behavior: smooth;
+}
+
+.control-template-h1 {
+  /* margin: 6vw; */
+  margin: 5.5vw;
+  color: rgb(59, 59, 175);
+  font-size: 2.5rem;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4vw;
+  width: 100%;
+  /* height: 100vh; */
+  /* overflow-y: scroll; */
+}
+
+.form-step {
+  /* Make each step take the full height of the viewport */
+  /* height: 100vh;  */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease-in-out;
+}
+.form-step.step2 {
+  /* height: 85vh;  */
+  height: fit-content; 
+  flex-direction: column;
+  gap: 2vw;
+  margin-top: 3vw;
+}
+
+.form-step.step2 h2 {
+
+}
+
+.form-step.step1 {
+  height: 85vh; 
+  /* display: grid; */
+  /* grid-template-columns: 70%; */
+  display: flex;
+  /* gap: 3vw; */
+  width: 100%;
+  flex-direction: column;
+}
+
+.form-step.step1 > button {
+  margin-left: auto;
+  margin-right: 15vw;
+}
+
+.sample-select-container .custom-select-container {
+  max-width: unset;
+  margin-left: 0;
+}
+
+/* .form-step.active {
+  opacity: 1;
+} */
+
+/* .form-step.inactive {
+  opacity: 0;
+  pointer-events: none;
+} */
+
+.progress-bar {
+  position: fixed;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 150px;
+}
+
+.progress-step {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ddd;
+  /* margin: 10px 0; */
+}
+
+.progress-step.step1 {
+  position: absolute;
+  left: 380px;
+  top: -140%;
+}
+
+.progress-step.step2 {
+  position: absolute;
+  left: 1750px;
+  top: -140%;
+}
+
+.step1-h2 {
+  position: absolute;
+  left: 356px;
+  top: -100%;
+}
+.step2-h2 {
+  position: absolute;
+  left: 1726px;
+  top: -100%;
+}
+
+.progress-step.active {
+  background-color: #4caf50;
+}
+
+.progress-line {
+  width: 4px;
+  background-color: #ddd;
+  flex-grow: 1;
+  transition: background-color 0.3s;
+}
+
+.progress-line.filled {
+  background-color: #4caf50;
+}
+
+
+button {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+button:active {
+  background-color: #004085;
+  transform: translateY(0);
+}
+
+.form-step2-buttons {
+  /* margin-left: auto;
+  margin-right: 15vw; */
+  margin: 0 15vw 5vw auto;
+}
+
+button.prev {
+  background-color: #6c757d;
+}
+
+button.prev:hover {
+  background-color: #5a6268;
+}
+
+button.prev:active {
+  background-color: #495057;
+}
+
+button.save {
+  background-color: #28a745;
+}
+
+button.save:hover {
+  background-color: #218838;
+}
+
+button.save:active {
+  background-color: #1e7e34;
+}

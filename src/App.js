@@ -3,6 +3,7 @@ import './style-sheets/General.css';
 import './style-sheets/General2.css';
 import './style-sheets/General3.css';
 import './style-sheets/General4.css';
+import './style-sheets/General5.css';
 import { useNavigate } from "react-router-dom";
 import { RouteHandler } from './components/routes//RouteHandler';
 import { getCookie } from "./utils/utils";
@@ -18,12 +19,23 @@ function App() {
   const BASE_URL =  "http://localhost:";
   const isAuth = authToken !== null;
 
-  useEffect(() => {
-    if(!isAuth){
-      navigate("/Login");
-  }
-  },[isAuth,navigate])
   
+  useEffect(() => {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const desktopWidthThreshold = 1024;
+    const desktopHeightThreshold = 710;
+    let isDeviceNotSupportedTemp = screenWidth < desktopWidthThreshold || screenHeight < desktopHeightThreshold;
+    
+    if(isDeviceNotSupportedTemp){
+      navigate("/Dispositivo-no-soportado");
+    }else 
+    if(!isAuth){
+      navigate("/Autenticarse");
+  }
+
+    },[isAuth,navigate])
+
   return (
     <HelmetProvider>
       <Provider store={store}>

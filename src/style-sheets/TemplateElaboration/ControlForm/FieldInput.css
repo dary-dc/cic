@@ -1,0 +1,97 @@
+/* Add to your FormFields.css or create a new FieldInput.css */
+.floating-label-group {
+    position: relative;
+    /* margin-bottom: 1em; */
+    width: 100%;
+    height: 3em;
+  }
+  
+  .floating-label-group input,
+  .floating-label-group select {
+    width: 100%;
+    padding: 0.8em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: all 0.2s ease;
+    /* background: transparent; */
+    /* background: transparent; */
+  }
+  
+  .floating-label-group .floating-label {
+    position: absolute;
+    left: 0.2em;
+    top: 35%;
+    transform: translateY(-50%);
+    /* background-color: white; */
+    /* background-color: #e4eaff; */
+    /* background-color: #3b3baf26; */
+    /* background-color: rgb(225, 225, 255); */
+    padding: 0 0.6em;
+    /* color: #666; */
+    color: #000;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    font-size: 1.2em;
+  }
+  
+  .floating-label-group input:focus ~ .floating-label,
+  .floating-label-group select:focus ~ .floating-label,
+  .floating-label-group .floating-label.active {
+    top: -30%;
+    /* color: rgb(59, 59, 175); */
+  }
+  
+  .floating-label-group input:focus,
+  .floating-label-group select:focus {
+    /* border-color: #007bff; */
+  }
+  
+  .floating-label-group .tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: -30px;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    white-space: nowrap;
+    z-index: 1000;
+  }
+  
+  .floating-label-group .tooltip::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 5px 5px 5px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
+  }
+  
+  .floating-label-group input:hover ~ .tooltip,
+  .floating-label-group select:hover ~ .tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .floating-label-group input.invalid,
+  .floating-label-group select.invalid {
+    border-color: #dc3545;
+    
+    /* for cancelling out Frank's the error styles */
+    background-color: none;
+    border: 2px solid rgb(255, 0, 0);
+    /* border: none; */
+  }
+  
+  .floating-label-group input.invalid ~ .floating-label,
+  .floating-label-group select.invalid ~ .floating-label {
+    color: #dc3545;
+  }

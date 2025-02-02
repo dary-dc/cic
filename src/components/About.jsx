@@ -32,14 +32,60 @@ const About = () => {
         </div>
         <div className='full-width'>    
             <h2 className="large-extra-font-size">Beneficios del proyecto</h2>
-            <div className="flex-container container-cards spaced-components">
-                <div className="card top-column-alignment">
+            {/* <div className="flex-container container-cards spaced-components"> */}
+            <div class="ag-courses_box">
+                
+                <div class="ag-courses_item">
+                    <div class="ag-courses-item_link">
+                        <div class="ag-courses-item_bg"></div>
+
+                        <div class="ag-courses-item_title">
+                        <AboutCard1Svg/>
+                        <p>Mejora la precisión y confiabilidad de los resultados de laboratorio.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ag-courses_item">
+                    <div class="ag-courses-item_link">
+                        <div class="ag-courses-item_bg"></div>
+
+                        <div class="ag-courses-item_title">
+                        <AboutCard2Svg/>
+                        <p>Módulos para la gestión de datos de control de calidad.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ag-courses_item">
+                    <div class="ag-courses-item_link">
+                        <div class="ag-courses-item_bg"></div>
+
+                        <div class="ag-courses-item_title">
+                        <AboutCard3Svg/>
+                        <p>Cálculo automático de indicadores de calidad.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ag-courses_item">
+                    <div class="ag-courses-item_link">
+                        <div class="ag-courses-item_bg"></div>
+
+                        <div class="ag-courses-item_title">
+                        <AboutCard4Svg/>
+                        <p>Generación de gráficas de control de calidad.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                {/* <div className="card top-column-alignment">
                     <div className="flex-container column-flex extra-gap large-margin-top">
                         <AboutCard1Svg/>
                         <p>Mejora la precisión y confiabilidad de los resultados de laboratorio.</p>
                     </div>
-                </div>
-                <div className="card top-column-alignment">
+                </div> */}
+                {/* <div className="card top-column-alignment">
                     <div className="flex-container column-flex extra-gap large-margin-top">
                         <AboutCard2Svg/>
                         <p>Módulos para la gestión de datos de control de calidad.</p>
@@ -56,8 +102,8 @@ const About = () => {
                         <AboutCard4Svg/>
                         <p>Generación de gráficas de control de calidad.</p>
                     </div>
-                </div>
-        </div>
+                </div> */}
+        {/* </div> */}
         </div>
         <div className='left-alignment left-blue-border'>
             <h2 className="large-extra-font-size ">Necesidad del proyecto</h2>
@@ -73,7 +119,44 @@ const About = () => {
         
         <div className='full-width'>    
             <h2 className="large-extra-font-size">Características del sistema</h2>
-            <div className="flex-container container-cards spaced-components">
+            
+            <div class="ag-courses_box">
+                
+                <div class="ag-courses_item">
+                    <div class="ag-courses-item_link">
+                        <div class="ag-courses-item_bg"></div>
+
+                        <div class="ag-courses-item_title">
+                            <AboutCard6Svg/>
+                            <p>Facilitar la recolección y análisis de datos mediante Base de datos para el almacenamiento de datos de control de calidad.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ag-courses_item">
+                    <div class="ag-courses-item_link">
+                        <div class="ag-courses-item_bg"></div>
+
+                        <div class="ag-courses-item_title">
+                            <AboutCard7Svg/>
+                            <p>Posibilidad de generar informes personalizados.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ag-courses_item">
+                    <div class="ag-courses-item_link">
+                        <div class="ag-courses-item_bg"></div>
+
+                        <div class="ag-courses-item_title">
+                            <AboutCard5Svg/>
+                            <p>Sistema de alertas para posibles problemas de calidad.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {/* <div className="flex-container container-cards spaced-components">
                 <div className="card top-column-alignment">
                     <div className="flex-container column-flex extra-gap large-margin-top">
                         <AboutCard6Svg/>
@@ -92,20 +175,20 @@ const About = () => {
                         <p>Sistema de alertas para posibles problemas de calidad.</p>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
         <div className="grid-two-columns">
             <div>
                 <img loading="lazy" src={ LaboratorySvg } alt="laboratory"/>
             </div>
-            <div>
-                <h2 className="large-extra-font-size">Objetivos del proyecto</h2>
+            <div className='project-objectives'>
+                <h2 >Objetivos del proyecto</h2>
                     <ul>
-                        <li className="left-alignment extra-font-size" >Fortalecer el control de calidad interno en los laboratorios clínicos.</li>
-                        <li className="left-alignment extra-font-size" >Reduce el riesgo de errores.</li>
-                        <li className="left-alignment extra-font-size" >Ahorra tiempo y recursos.</li>
-                        <li className="left-alignment extra-font-size" >Facilita la toma de decisiones.</li>
-                        <li className="left-alignment extra-font-size" >Contribuye a la acreditación de los laboratorios clínicos.</li>
+                        <li className="left-alignment" >Fortalecer el control de calidad interno en los laboratorios clínicos.</li>
+                        <li className="left-alignment" >Reduce el riesgo de errores.</li>
+                        <li className="left-alignment" >Ahorra tiempo y recursos.</li>
+                        <li className="left-alignment" >Facilita la toma de decisiones.</li>
+                        <li className="left-alignment" >Contribuye a la acreditación de los laboratorios clínicos.</li>
                     </ul>
             </div>
         </div>

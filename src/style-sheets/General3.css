@@ -1,20 +1,12 @@
-input{
-    font-size: 16px;
-}
 :root{
     --main-color:#8194f2;
 }
 
 input{
-    padding: .7em 1.5em;
+    padding: .2vw .5vw;
     font-size: .7em;
 }
-td input{
-    font-size: 1em;
-}
-#rep-graph{
-    grid-column: 2/3;
-}
+
 .parent-svg:hover{
     cursor: pointer;
 }
@@ -98,7 +90,7 @@ div.switch-container,.switch-container{
     right:15%;
     position:sticky;
 }
-.add-svg,.about1-svg {
+.process-select-button .add-svg,.TableContainer .add-svg,.TableContainer .about1-svg {
     transform: scale(60%);
     fill: #fff;
 }
@@ -110,20 +102,10 @@ div.center-flex{
     justify-content: center;
     align-items: center;
 }
-div.error input{
-    background-color: rgba(254, 140, 102, 0.574);
-    border: 2px solid rgb(255, 0, 0);
-}
 
-div.error svg,div.error.babysitter-form svg{
-    fill: rgb(255, 0, 0);
-}
-
-div.error-alt.ContInpPlaceholder.babysitter-form input,div.error-alt.ContInpPlaceholder.babysitter-form .custom-select-container{
-    background-color: rgba(254, 140, 102, 0.574);
-}
-div.error-alt.ContInpPlaceholder.babysitter-form{
-    border: 2px solid rgb(255, 0, 0);
+.error input:not(.search-bar),.error div.custom-select{
+    background-color: rgba(254, 140, 102, 0.233);
+    border: 1px solid rgb(255, 0, 0);
 }
 
 div.error-alt .quill .ql-toolbar.ql-snow{
@@ -143,7 +125,7 @@ div.error-alt.babysitter-form svg{
 }
 
 
-.ContInpPlaceholder{
+.container-Input-placeholder{
     display: flex;
     gap: 1em;
 }
@@ -158,22 +140,6 @@ div.error-alt.babysitter-form svg{
     padding: 2em;
     margin: 0 auto;
 }
-
-.ContInpPlaceholder .placeholder{
-    position: absolute;
-    margin-left: 4em;
-    pointer-events: none;
-    font-size: .8em;
-    transition: margin .7s;
-}
-.ContInpPlaceholder
-.left-alignment{
-    text-align: left;
-    justify-content: flex-start;
-}
-.ContInpPlaceholder label{
-    cursor:text;
-}
 .ContInpCheckbox input{
     width: 2em;
     height: 2em;
@@ -187,17 +153,6 @@ div.error-alt.babysitter-form svg{
 }
 #data-container tr td{
     text-align: center;
-}
-
-input.extra-width {
-    width: 18em;
-}
-
-input.medium-width {
-    width: 14em;
-}
-input.greater-width {
-    width: 16em;
 }
 
 .form-input{

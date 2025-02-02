@@ -1,5 +1,12 @@
 /* POPUP */
 
+.popup-icon.alert-icon{
+    width: 100%;
+}
+
+.alert-icon svg{
+    transform: scale(2);
+}
 
 .popup-container{
     top: 0;
@@ -7,7 +14,7 @@
     z-index: 999;
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +32,7 @@
 }
 
 .popup-icon svg{
-    height: 6vw;
+    height: 3vw;
 }
 
 button.popup-close:hover{
@@ -61,12 +68,12 @@ button.popup-close{
 .popup{
     width: 30vw;
     padding: 2vw 0 1vw;
-    min-height: 25vw;
+    min-height: fit-content;
     border-radius: .8vw;
     background-color: #fff;
     box-shadow: 0 2px 2px #b8b8b880;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 90% 10%;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -74,6 +81,12 @@ button.popup-close{
 
 .popup-shown{
     animation: popup-show .3s;
+}
+
+.popup-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .popup.popup-hide{
@@ -114,13 +127,20 @@ button.popup-close{
 }
 
 .popup-title{
-    font-size: 3vw;
+    font-size: 2.5em;
     color: #414141d5;
     margin-bottom: 1vw;
 }
 
+.popup-main-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .popup-content{
-    margin: 1.2vw 0;
+    margin: 4vw 0;
     padding: .5vw 2vw;
     font-size: 1.2em;
     color: #414141db;

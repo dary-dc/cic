@@ -31,7 +31,7 @@ const Repeatability = () => {
         "repeatability_id"  : -1,
         "header_id" : -1,
         "equipment_name" : "",
-        "remaining_modifications" : -1,
+        "remaining_modifications" : 2,
         "analytic_method_name" : "",
         "analytic_technique_name" : "",
         "controller_concentration" : "",
@@ -56,12 +56,13 @@ const Repeatability = () => {
     const [isZeroMonth,setIsZeroMonth] = useState(false);
 
     const[dates,setDates] = useState([]);
-    const[data,setData] = useState([]);
+    const[dataSeries,setDataSeries] = useState([]);
     const[deviations,setDeviations] = useState({});
 
     var formFieldsObject = {};
+    var remainingModifications = 2;
     var rowsObject = useRef({});
-    var remainingModifications = -1;
+    var buttons = useRef(null);
 
     const requestDeterminationsData = async () => {
         let response = await fetch(`${BASE_URL}${PORT}/determinations`);
@@ -93,13 +94,14 @@ const Repeatability = () => {
 
     const getRepeatabilityData = async (e) => {
         const actualDate = new Date();
-        
+        const previousDate = getPreviousMonthDate()
+
         let html = <img className="baby_bottle" width="150px" height="150px" src={require("../resources/test_tube.gif")} alt="Loading..." />      
         
         firePopup({ html : html,showConfirmButton:false,isHtmlComponent:true})
         
         let body = {
-            repeatability_date: `${actualDate.getFullYear()}-${ true ? actualDate.getMonth() : getPreviousMonthDate().getMonth() }-1`,
+            repeatability_date: `${previousDate.getFullYear()}-${ previousDate.getMonth() + 1 }-1`,
             determination_id : e.target.value
         }
 
@@ -112,14 +114,15 @@ const Repeatability = () => {
         
         let jsonDataPreviousMonth = await handleResponse(response);
         
-
         if(jsonDataPreviousMonth['header_id'] === -1 && jsonDataPreviousMonth['repeatability_id'] === -1)
             setIsZeroMonth(true);
-        else
+        else{
+            setIsZeroMonth(false);
             handleSetDeviations(jsonDataPreviousMonth['table_fragments']);
+        }
 
         body = {    
-            repeatability_date: `${actualDate.getFullYear()}-${actualDate.getMonth()}-1`,
+            repeatability_date: `${actualDate.getFullYear()}-${actualDate.getMonth() + 1}-1`,
             determination_id : e.target.value
         }
 
@@ -132,11 +135,13 @@ const Repeatability = () => {
         let jsonData = await handleResponse(response);
 
 
-        jsonData['analytic_method_name'] = jsonData['analytic_method_name'] === undefined ? "" : jsonData['analytic_method_name'];
-        jsonData['analytic_technique_name'] = jsonData['analytic_technique_name'] === undefined ? "" : jsonData['analytic_technique_name'];
-        jsonData['temperature_value'] = jsonData['temperature_value'] === undefined ? "" : jsonData['temperature_value'];
-        jsonData['controller_id'] = jsonData['controller_id'] === undefined ? "" : jsonData['controller_id'];
-        jsonData['institution_id'] = jsonData['institution_id'] === undefined ? "" : jsonData['institution_id'];
+        jsonData['analytic_method_name'] = jsonData['analytic_method_name'] ?? "";
+        jsonData['analytic_technique_name'] = jsonData['analytic_technique_name'] ?? "";
+        jsonData['equipment_name'] = jsonData['equipment_name']?? "";
+        jsonData['temperature_value'] = jsonData['temperature_value'] ?? "";
+        jsonData['controller_id'] = jsonData['controller_id'] ?? "";
+        jsonData['remaining_modifications'] = jsonData['remaining_modifications'] ?? 2;
+        jsonData['institution_id'] = jsonData['institution_id'] === undefined || jsonData['institution_id'] === "" ? getCookie("institution_id") : jsonData['institution_id'];
 
         setDataRows(!jsonData['table_fragments'] ? [] : jsonData['table_fragments'].map((d) => {
             d.date = d.date.split("T")[0]
@@ -163,25 +168,38 @@ const Repeatability = () => {
         if(e.target.getAttribute("name") === "determination_id"){
             let data = await getRepeatabilityData(e)
             data[name] = value;
+
             setFormData(data);
+            setFormDataErrors({
+                "equipment_name" : false,
+                "analytic_method_name" : false,
+                "analytic_technique_name" : false,
+                "controller_concentration" : false,
+                "temperature_value" : false,
+                "controller_id" : false,
+                "controller_commercial_brand" : false,
+            })
         }
     }
 
     
-    const handlePlotData = (e,data) => {
+    const handlePlotData = async (e,data) => {
         let datesTemp = [];
         let dataTemp = [];
 
-        for(let i =0;i < dataRowsPreviousMonth.length;i++){
-            let actualObject = dataRowsPreviousMonth[i];
+        let fetchedData = await handleSetDeviations(dataRowsPreviousMonth);
+        let dataF = Object.values(dataRowsPreviousMonth)
+        for(let i =0;i < dataF.length;i++){
+            let actualObject = dataF[i];
 
             if(actualObject?.date)
                 datesTemp.push(actualObject.date)
-            if(actualObject?.d1)
-                dataTemp.push(actualObject.d1 - actualObject.d2)
+            if(actualObject?.d1 && actualObject?.d2)
+                dataTemp.push(Math.pow(actualObject.d1 - actualObject.d2,2))
         }
 
-        setData(dataTemp);
+        console.log(dataTemp,fetchedData)
+        setDataSeries(dataTemp);
         setDates(datesTemp);
     }
 
@@ -210,12 +228,14 @@ const Repeatability = () => {
         });
         let jsonData = await handleResponse(response);
         setDeviations(jsonData);
+
+        return jsonData
     }
 
 
-    const handleEditRow = async (e,type) => {
+    const handleRowModifications = async (e,type) => {
         if(type === "pre-save"){
-            const actualDate = new Date();
+            const actualDate = new Date();  
             
             if(formData['remaining_modifications'] === 2){
                 let html = `
@@ -225,12 +245,13 @@ const Repeatability = () => {
 
                     firePopup({
                         title: "Advertencia",
+                        type:"warning",
                         html: html,
                         showCancelButton: true,
                         cancelButtonText: "Cancelar",
                         didOpen: () => console.log("Popup abierto"),
-                        onCanceled: () => resolve("canceled"), // Resolve promise with "canceled"
-                        onAccepted: () => resolve("accepted"), // Resolve promise with "accepted"
+                        onCanceled: () => resolve("canceled"),
+                        onAccepted: () => resolve("accepted"),
                     });
     
                 });
@@ -240,7 +261,7 @@ const Repeatability = () => {
             }
             
             let body = {    
-                repeatability_date: `${actualDate.getFullYear()}-${actualDate.getMonth()}-1`,
+                repeatability_date: `${actualDate.getFullYear()}-${actualDate.getMonth() + 1}-1`,
                 determination_id : formData['determination_id']
             }
     
@@ -256,7 +277,8 @@ const Repeatability = () => {
 
             return true;
         }
-        if(type == "post-save"){
+
+        if(type == "post-save" || type == "post-add"){
             let formDataTemp = {};
             Object.assign(formDataTemp,formData);
             formDataTemp['remaining_modifications'] = remainingModifications;
@@ -268,7 +290,9 @@ const Repeatability = () => {
 
     const handleSubmitFormData = async (e) => {
         let html = <img className="baby_bottle" width="150px" height="150px" src={require("../resources/test_tube.gif")} alt="Loading..." />      
-        firePopup({ html : html,showConfirmButton:false,isHtmlComponent:true})
+        let html2 = <span><span style={{color:"#7066e0"}}>RECUERDE</span> que no puede dejar ningún <span style={{color:"#7066e0"}}>CAMPO VACÍO</span></span>
+
+        let canContinue = true;
 
         let tableFragments = [];
         let keysFragments = Object.keys(fragmentsDataRepeatability);
@@ -292,20 +316,29 @@ const Repeatability = () => {
 
         formFieldsObject["header_id"] = formData["header_id"] ?? -1;
         formFieldsObject["repeatability_id"] = formData["repeatability_id"] ?? -1;
-        formFieldsObject["repeatability_date"] = `${actualDate.getFullYear()}-${actualDate.getMonth()}-1`;
+        formFieldsObject["repeatability_date"] = `${actualDate.getFullYear()}-${actualDate.getMonth() + 1}-1`;
 
         let keysFormField = Object.keys(formFieldsObject);
-        let tempErrors = formDataErrors;
+        let tempErrors = {};
+        Object.assign(tempErrors,formDataErrors);
 
         for(let i = 0;i < keysFormField.length;i++){
             if(formFieldsObject[keysFormField[i]] === ""){
                 tempErrors[keysFormField[i]] = true;
+                canContinue = false;
             }else{
                 tempErrors[keysFormField[i]] = false;
             }
         }
 
         setFormDataErrors(tempErrors);
+
+        if(!canContinue){
+            firePopup({ html : html2,type:"warning",title: "Advertencia",isHtmlComponent:true})
+            return;
+        }
+
+        firePopup({ html : html,showConfirmButton:false,isHtmlComponent:true})
 
         let body = {
             "formHeaders":formFieldsObject,
@@ -336,47 +369,66 @@ const Repeatability = () => {
         
     }
 
+    // useEffect(() => {
+    //     buttons = [
+    //         {
+    //             name:'add-row',
+    //             svgComponent:<AddSvg/>,
+    //             action:'add',
+    //             callback:async (e,type) => { return await handleRowModifications(e,type) }
+    //         },  
+            
+    //         {
+    //             name:'delete-row',
+    //             svgComponent:<TrashSvg/>            ,
+    //             action:'delete',
+    //             callback:(e,type) => {console.log(e)}
+    //         },
+    //     ]  
+    // },[])
 
-    let buttons = [
-        {
-            name:'add-row',
-            svgComponent:<AddSvg/>,
-            action:'add',
-            callback:(e,type) => {console.log(e)}
-        },  
+    useEffect(() => {
+        buttons.current = [
+            {
+                name:'add-row',
+                svgComponent:<AddSvg/>,
+                action:'add',
+                callback:async (e,type) => { return await handleRowModifications(e,type) }
+            },  
+            
+            {
+                name:'delete-row',
+                svgComponent:<TrashSvg/>            ,
+                action:'delete',
+                callback:(e,type) => {console.log(e)}
+            },  
+        ];
         
-        {
-            name:'delete-row',
-            svgComponent:<TrashSvg/>            ,
-            action:'delete',
-            callback:(e,type) => {console.log(e)}
-        },  
-    ];
-
-    if(!isZeroMonth){
-        buttons.push({
-            name:'plot-data',
-            svgComponent:<About1Svg/>,
-            action:'custom',
-            callback:(e,data) => { handlePlotData(e,data) }
-        })
-    }else{
-        buttons = buttons.filter(d => d.name !== "plot-data");
-    }
-
-    if(parseInt(formData['remaining_modifications']) ?? false){
-         
-        buttons.push({
-            name:'edit-row',
-            svgComponent:<EditSvg/>,
-            secondSvgComponent:<SaveSvg/>,
-            thirdSvgComponent:<CancelSvg/>,
-            action:'edit',
-            callback: async (e,type) =>  { return await handleEditRow(e,type) }
-        }); 
-    }else{
-        buttons = buttons.filter(d => d.name !== "edit-row");
-    }
+        if(!isZeroMonth && formData['determination_id']){
+            buttons.current.push({
+                name:'plot-data',
+                svgComponent:<About1Svg/>,
+                action:'custom',
+                callback:(e,data) => { handlePlotData(e,data) }
+            })
+        }else{
+            buttons.current = buttons.current.filter(d => d.name !== "plot-data");
+        }
+    
+        if(parseInt(formData['remaining_modifications']) ?? false){
+             
+            buttons.current.push({
+                name:'edit-row',
+                svgComponent:<EditSvg/>,
+                secondSvgComponent:<SaveSvg/>,
+                thirdSvgComponent:<CancelSvg/>,
+                action:'edit',
+                callback: async (e,type) =>  { return await handleRowModifications(e,type) }
+            }); 
+        }else{
+            buttons.current = buttons.current.filter(d => d.name !== "edit-row");
+        }
+    },[isZeroMonth])
 
     let columns = [{
         name:'n',
@@ -390,7 +442,7 @@ const Repeatability = () => {
                 equation:'month-day',
             },
             totalizer:"row-count",
-            initialValue: new Date().getMonth()
+            initialValue: new Date().getMonth() + 1
         }
         
     },
@@ -411,7 +463,8 @@ const Repeatability = () => {
             </span>,
         svgComponent:<D1D2/>,
         options:{
-            handleChange:handleTableChange
+            handleChange:handleTableChange,
+            validator:"only-numbers"
         }
     },
     {
@@ -422,7 +475,8 @@ const Repeatability = () => {
             </span>,
         svgComponent:<D1D2/>,
         options:{
-            handleChange:handleTableChange
+            handleChange:handleTableChange,
+            validator:"only-numbers"
         }
     },
     {
@@ -471,14 +525,15 @@ const Repeatability = () => {
           
         series: [{
           name: "d1_d2",
-          data: data
+          data: dataSeries
         }],
 
 
         options: {
           chart: {
             height: 350,
-            type: 'area'
+            type: 'area',
+            id: 'report-graph',
           },
           dataLabels: {
             enabled: false
@@ -499,27 +554,27 @@ const Repeatability = () => {
             position: 'front',
             yaxis: [
               {
-                y: deviations['r_1'],
+                y: deviations['r1'],
                 borderColor: 'green',
                 label: {
                   borderColor: 'green',
-                  text: 'Línea en 2'
+                  text: '1 R'
                 }
               },
               {
-                y: deviations['r_2'],
+                y: deviations['r2'],
                 borderColor: 'yellow',
                 label: {
                   borderColor: 'yellow',
-                  text: 'Línea en 4'
+                  text: '2 R'
                 }
               },
               {
-                y: deviations['r_3'],
+                y: deviations['r3'],
                 borderColor: 'red',
                 label: {
                   borderColor: 'red',
-                  text: 'Línea en 6'
+                  text: '3 R'
                 }
               }
             ]
@@ -532,12 +587,12 @@ const Repeatability = () => {
 
     return (
         <section className="TableContainer">
-            <TableHeaders handleFormFieldChange={handleFormFieldChange} controllersData={controllersData} institutionsData={institutionsData} determinationData={determinationData} formDataErrors={formDataErrors} formData={formData} setInstitutionsData={setInstitutionsData} setControllersData={setControllersData} setDeterminationData={setDeterminationData} handleSubmitFormData={handleSubmitFormData}  />
+            <TableHeaders tableTitle={"Repetibilidad"} dataRows={dataRows} columnHeaders={columns} handleFormFieldChange={handleFormFieldChange} controllersData={controllersData} institutionsData={institutionsData} determinationData={determinationData} formDataErrors={formDataErrors} formData={formData} setInstitutionsData={setInstitutionsData} setControllersData={setControllersData} setDeterminationData={setDeterminationData} handleSubmitFormData={handleSubmitFormData}  />
             <div className="left-alignment short-margin-top container">
                 <div className="short-margin-left current-date">{new Date().toLocaleDateString("es-MX",{ weekday:'long', day:'numeric', month:'long', year:'numeric' })}</div>
-                <Table tableTitle={"Repetibilidad"} columns={columns} data={dataRows} buttons={buttons} />
+                <Table tableTitle={"Repetibilidad"} columns={columns} data={dataRows} buttons={buttons.current} />
             </div>
-            <div className={`${data?.length ? 'visible' : ''} report-graph`}>
+            <div className={`${dataSeries.length ? 'visible' : ''} report-graph`} >
                 <ReactApexChart options={state.options} series={state.series} type="area" height={350} />
             </div>
         </section>

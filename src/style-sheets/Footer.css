@@ -1,15 +1,16 @@
 #principal-footer{
     background-color: #343434;
     color: #fff;
-    padding: 3em;
+    padding: 2em 2em 1em;
     display: flex;
     flex-direction: column;
     justify-content:flex-start;
-    gap: 3em;
+    gap: 2em;
     align-items: center;
     font-size: 16px;
     position: relative;
-    z-index: 19;
+    /* z-index: 9; */
+    z-index: -1;
 }
 
 .company-logo-footer{
@@ -20,12 +21,21 @@
     width: 8vw;
     height: 10vw;
 }
+
+.footer-container{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    gap: 4vw;
+    grid-template-columns: 40% 60%;
+    width: 100%;
+}
+
 div.grid-footer{
     display: grid;
-    width: 60%;
     align-items: flex-start;
     gap:4em;
-    grid-template-columns: 20% 40% 20% 20%;
+    grid-template-columns: repeat(4,20%);
 }
 .footer-separator{
     width: 80%;

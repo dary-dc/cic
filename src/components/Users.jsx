@@ -20,6 +20,7 @@ const Users = () => {
     const[userDataStatistics,setUserDataStatistics] = useState({});
     const[userData,setUserData] = useState([]);
     const[institutionData,setInstitutionData] = useState([]);
+    const[roleData,setRolesData] = useState([]);
 
     const getUserData = async () => {
         try {
@@ -50,11 +51,17 @@ const Users = () => {
             
             if(jsonData){
                 let responseInstitutions = await fetch(`${BASE_URL}${PORT}/institutions`);
-                let jsonDataInstitutions = await handleResponse(responseInstitutions)
+                let jsonDataInstitutions = await handleResponse(responseInstitutions);
                 setInstitutionData(jsonDataInstitutions);
             }
             
             setUserData(jsonData); 
+            
+            
+            let responseRoles = await fetch(`${BASE_URL}${PORT}/roles`);
+            let jsonDataRoles = await handleResponse(responseRoles);
+            setRolesData(jsonDataRoles);
+
             } catch (error) {
                 console.error("Error fetching user data:", error);
                 fireToast({text : "Error fetching user data:",type : error});
@@ -64,12 +71,9 @@ const Users = () => {
     const handleEdit = async (e,type) => {
         let data = e?.detail?.data;
 
-        if(type === "pre-save"){
-            data['role_id'] = 2;
-            data['password'] = data['password'].length > 10 ? data['password'] : bcrypt.hashSync(data['password'], 10);
-        }
+        if(type === "post-save"){
+            console.log(data)
 
-        if(type === "post-edit"){
             if(data){
                 data['password'] = data['password'].length > 10 ? data['password'] : bcrypt.hashSync(data['password'], 10);
 
@@ -82,6 +86,9 @@ const Users = () => {
                 getUserData();
             }   
         }
+
+        return true;
+
     }
 
     const handleDelete = async (e,type) => {
@@ -158,15 +165,23 @@ const Users = () => {
             }
         }
     },
+    {
+        name:'role_name',
+        fieldValueName:'role_id',
+        label:"Rol",
+        // svgComponent:<D1AndD2/>,
+        options:{
+            handleChange:(e) => {
+                console.log(e.target)
+            },
+            customComponent : (value, tableMeta,handleChange) => {
+                return <CustomSelect selectedValue={value} onChange={handleChange} customClassName={"table-select"} name="role_id" placeholder={"Rol"} searchable={true} noResults={"Sin Opciones"} noOPtions={"Sin Opciones"} data={roleData} placeholderSearchBar={"Buscar.."}/>
+            }
+        }
+    },
     ]
 
     let buttons = [
-        // {
-        //     name:'plot-data',
-        //     svgComponent:<About1Svg/>,
-        //     action:'custom',
-        //     callback:(e,type) => {console.log(e,type)}
-        // },
         {
             name:'add-row',
             svgComponent:<AddSvg/>,
@@ -178,14 +193,14 @@ const Users = () => {
             secondSvgComponent:<SaveSvg/>,
             thirdSvgComponent:<CancelSvg/>,
             action:'edit',
-            callback:(e,type) => {handleEdit(e,type)}
+            callback:async (e,type) => { return await handleEdit(e,type) }
         },  
         
         {
             name:'delete-row',
             svgComponent:<TrashSvg/>            ,
             action:'delete',
-            callback:(e,type) => {handleDelete(e,type)}
+            callback:async (e,type) => {  return await handleDelete(e,type) }
         },  
     ];
 

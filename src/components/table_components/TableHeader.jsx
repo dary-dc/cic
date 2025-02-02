@@ -11,7 +11,7 @@ import { clearSelectionAction, fullSelectionAction } from "../../redux/actions/s
 import { exportTableToExcel } from "./tableFunctions/downloadExcel.js"
 import { printTable } from "./tableFunctions/printTable.js"
 
-export const TableHeader = ({setActualRows,table_id,dataRows,setDataRowsToMap,columnHeaders,tableTitle,handleDelete,deleteOptionsObject}) => {
+export const TableHeader = ({setActualRows,buttons,table_id,dataRows,setDataRowsToMap,columnHeaders,tableTitle,handleDelete,deleteOptionsObject}) => {
     const [isVisibleSearching,setIsVisibleSearching] = useState(false);
     const [isMasterCheckChecked, setIsMasterCheckChecked] = useState(false);
     const dispatch = useDispatch();
@@ -107,10 +107,13 @@ export const TableHeader = ({setActualRows,table_id,dataRows,setDataRowsToMap,co
                 }
                 </div>
             </div>
-            <div className="table-grid-container">
-                <div className="table-flex-container header-checkbox-container" key={uuid()}> 
-                    <CustomCheckbox checked={isMasterCheckChecked} handleCheckbox={handleCheckAll} isMasterCheck={true} identifier={`header-checkbox`} name={`custom-checkbox`}/>
-                </div> 
+            <div className={`table-grid-container ${buttons ? "table-grid-container-reduced" : ""}`}>
+                {
+                    buttons &&
+                    <div className="table-flex-container header-checkbox-container" key={uuid()}> 
+                        <CustomCheckbox checked={isMasterCheckChecked} handleCheckbox={handleCheckAll} isMasterCheck={true} identifier={`header-checkbox`} name={`custom-checkbox`}/>
+                    </div> 
+                } 
                 {
                     columnHeaders.map((columnType,index) => {
                         return (

@@ -44,22 +44,22 @@ const Help = () => {
                         }
                     </div> :
                     <div className="grid-2-columns section-content">
-                        <NavLink to="Proceso de Repetibilidad" className="flex-container card-alt left-alignment card-alt-alt">
+                        <NavLink to="Proceso-de-Repetibilidad" className="flex-container card-alt left-alignment card-alt-alt">
                             <span className="card-alt-main-title full-width">Proceso de Repetibilidad</span>
                             <RightArrowSvg/>
                         </NavLink>
 
-                        <NavLink to="Proceso de Reproducibilidad" className="flex-container card-alt left-alignment card-alt-alt">
+                        <NavLink to="Proceso-de-Reproducibilidad" className="flex-container card-alt left-alignment card-alt-alt">
                             <span className="card-alt-main-title full-width">Proceso de Reproducibiidad</span>
                             <RightArrowSvg/>
                         </NavLink>
 
-                        <NavLink to="Proceso de Elaboracion de Suero" className="flex-container card-alt left-alignment card-alt-alt">
+                        <NavLink to="Proceso-de-Elaboracion-de-Suero" className="flex-container card-alt left-alignment card-alt-alt">
                             <span className="card-alt-main-title full-width">Proceso de Elaboración de Orina Control</span>
                             <RightArrowSvg/>
                         </NavLink>
                         
-                        <NavLink to="Proceso de Elaboracion de Orina Control" className="flex-container card-alt left-alignment card-alt-alt">
+                        <NavLink to="Proceso-de-Elaboracion-de-Orina-Control" className="flex-container card-alt left-alignment card-alt-alt">
                             <span className="card-alt-main-title full-width">Proceso de Elaboración de Suero Control</span>
                             <RightArrowSvg/>
                         </NavLink>

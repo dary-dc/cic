@@ -1,4 +1,4 @@
-import { firePopup } from "../../alert_components/Alert/CustomAlert";
+import ReactDOMServer from 'react-dom/server';
 
 function generatePrintableTable(dataRows, columnHeaders) {
     const table = document.createElement('table');
@@ -12,10 +12,12 @@ function generatePrintableTable(dataRows, columnHeaders) {
 
     columnHeaders.forEach(header => {
       const th = document.createElement('th');
-      th.textContent = header.label;
+      th.textContent = ReactDOMServer.renderToStaticMarkup(header.label).replaceAll(/(&nbsp;|<([^>]+)>)/ig,"");
+      
       columnNames.push(header.name.toLowerCase());
       headerRow.appendChild(th);
     });
+
     thead.appendChild(headerRow);
     table.appendChild(thead);
   
@@ -34,7 +36,6 @@ function generatePrintableTable(dataRows, columnHeaders) {
             let columnName = dataObjectKeysArray[x];
             let data = dataObject[columnName];
 
-            console.log(columnNames,columnName)
             if(!columnNames.includes(columnName.toLowerCase())) continue;
 
             const td = document.createElement('td');
@@ -59,6 +60,7 @@ export const printTable = (e,dataRows,columnHeaders,tableTitle) => {
     const printableTable = generatePrintableTable(dataRows, columnHeaders);
 
     // Optional: Add the table to the DOM for visual confirmation (comment out for printing directly)
+    // document.body.innerHTML = "";
     document.body.appendChild(printableTable);
 
     console.log(printableTable);
@@ -67,5 +69,5 @@ export const printTable = (e,dataRows,columnHeaders,tableTitle) => {
 
     // Optional: Remove the table from the DOM if added earlier
     document.body.removeChild(printableTable);
-
+    
   };

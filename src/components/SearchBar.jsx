@@ -7,27 +7,27 @@ const SearchBar = ({title,matchedQuestions,setMatchedQuestions}) => {
     const { QUESTIONS } = useContext(ApiContext);
 
     const handleSearchBarInput = (e) => {
-        let questionKeys = Object.keys(QUESTIONS);
-        let temp = matchedQuestions ? matchedQuestions : [];
-        let temp1 = [];
+        // let questionKeys = Object.keys(QUESTIONS);
+        // let temp = matchedQuestions ? matchedQuestions : [];
+        // let temp1 = [];
 
-        if(e.target.value == "") {
-            setMatchedQuestions([]);
-            return;
-        }
+        // if(e.target.value == "") {
+        //     setMatchedQuestions([]);
+        //     return;
+        // }
         
-        for(let i =0;i < questionKeys.length;i++){
+        // for(let i =0;i < questionKeys.length;i++){
 
-            if(questionKeys[i].toLocaleLowerCase().includes(e.target.value.toLowerCase()) && !temp.hasOwnProperty(questionKeys[i])){
-                temp[questionKeys[i]] = QUESTIONS[questionKeys[i]];
-                temp1.push({
-                    "question" : questionKeys[i],
-                    "answer" : QUESTIONS[questionKeys[i]]
-                })
-            }
-        }
+        //     if(questionKeys[i].toLocaleLowerCase().includes(e.target.value.toLowerCase()) && !temp.hasOwnProperty(questionKeys[i])){
+        //         temp[questionKeys[i]] = QUESTIONS[questionKeys[i]];
+        //         temp1.push({
+        //             "question" : questionKeys[i],
+        //             "answer" : QUESTIONS[questionKeys[i]]
+        //         })
+        //     }
+        // }
 
-        setMatchedQuestions(temp1)
+        // setMatchedQuestions(temp1)
     }
 
     return (

@@ -15,7 +15,7 @@ export const InputRow = ({ table_id,id,isANewRow,activeRowNumber,rowNumber,handl
     is in charge fro the save process redirecting the event to the handleEdit 
     */
     const [active,setIsActive] = useState(isANewRow);
-    const renderSaveSvgInAdd = !buttons.filter(d => d.action === "edit").length > 0;
+    const renderSaveSvgInAdd = !buttons?.filter(d => d.action === "edit")?.length > 0;
 
     const dispatch = useDispatch();
 
@@ -30,33 +30,27 @@ export const InputRow = ({ table_id,id,isANewRow,activeRowNumber,rowNumber,handl
         }
 
         if(callback && !isANewRow && !active){
-            continueProcess = await callback(e,"pre-save");
+            continueProcess = await callback(e,action == "add" ? "pre-add" : "pre-save");
         } 
+        console.log("continueProcess",continueProcess)
 
         if(isANewRow) activeRowNumber = rowNumber;
         
         for(let i = 0;i < keysDataRows.length;i++){
             if(data[keysDataRows[i]] === ""){
                 continueProcess = false;
-                // Alert.fire({
-                //     "text":"No puede haber ninguna entrada vacía",
-                //     "type":"error"
-                // })
-
                 fireToast({ text: "No puede haber ninguna entrada vacía", type: "error" });
                 return;
             }
         }
 
         if(continueProcess){
-
             e.detail = {
                 "data":data
             }
 
-
             if(active){
-                if(callback) callback(e,"post-save");
+                if(callback) callback(e,action == "add" ? "post-add" : "post-save");
             }
         
             activeRowNumber = rowNumber
@@ -66,7 +60,7 @@ export const InputRow = ({ table_id,id,isANewRow,activeRowNumber,rowNumber,handl
 
     const handleAddRow = (e,callback = undefined,action = undefined) => {
         // SAVE PROCESS WHEN THERE IS NO A EDIT BUTTON
-        if(action === "add" && active){
+        if(action === "add" & active){
             handleEdit(e,callback,action);
             return;
         }
@@ -99,10 +93,13 @@ export const InputRow = ({ table_id,id,isANewRow,activeRowNumber,rowNumber,handl
 
     return (
         <>
-        <div className={`row row${rowNumber} table-grid-container`}  id={id}>
-            <div className="table-flex-container custom-checkbox-container" key={uuid()}> 
-                <CustomCheckbox handleCheckbox={handleCheckbox} isMasterCheck={false} identifier={`custom-checkbox${ rowNumber } row${ rowNumber }`} name={`custom-checkbox`}/>
-            </div> 
+        <div className={`row row${rowNumber} table-grid-container ${buttons ? "table-grid-container-reduced" : ""}`}  id={id}>
+            {
+                buttons &&
+                <div className="table-flex-container custom-checkbox-container" key={uuid()}> 
+                    <CustomCheckbox handleCheckbox={handleCheckbox} isMasterCheck={false} identifier={`custom-checkbox${ rowNumber } row${ rowNumber }`} name={`custom-checkbox`}/>
+                </div>
+            } 
             {
                 columns.map((column,index) => {
                         const Component = column['options']?.['customComponent'];
@@ -133,7 +130,7 @@ export const InputRow = ({ table_id,id,isANewRow,activeRowNumber,rowNumber,handl
                             
                             return active  && (buttonConfig.action === "edit" ||  renderSvgInAdd) ? 
                                 <div key={uuid()} className="container-third-btn"> 
-                                    <div  onClick={(e) => (types[buttonConfig.action] !== undefined ? types[buttonConfig.action](e,buttonConfig.callback,buttonConfig.action) : buttonConfig.callback(e,data))} className={`update-data-icons ${buttonConfig.name}`}>
+                                    <div  onClick={(e) => (types[buttonConfig.action] !== undefined ? types[buttonConfig.action](e,buttonConfig.callback,buttonConfig.action,buttonConfig.action) : buttonConfig.callback(e,data))} className={`update-data-icons ${buttonConfig.name}`}>
                                         { buttonConfig.secondSvgComponent ?? <SaveSvg /> }
                                     </div>
                                     {
@@ -145,7 +142,7 @@ export const InputRow = ({ table_id,id,isANewRow,activeRowNumber,rowNumber,handl
                                     
                                 </div>
                                 : 
-                                <div key={uuid()} onClick={(e) => (types[buttonConfig.action] !== undefined ? types[buttonConfig.action](e,buttonConfig.callback) : buttonConfig.callback(e,data))} className={`update-data-icons ${buttonConfig.name}`}>
+                                <div key={uuid()} onClick={(e) => (types[buttonConfig.action] !== undefined ? types[buttonConfig.action](e,buttonConfig.callback,buttonConfig.action) : buttonConfig.callback(e,data))} className={`update-data-icons ${buttonConfig.name}`}>
                                     { buttonConfig.svgComponent }
                                 </div>
                         })

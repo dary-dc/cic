@@ -5,8 +5,8 @@ import { SuccessSvg } from "./svg_components/SuccessSvg";
 import { UserSvg } from "./svg_components/UserSvg";
 import { ApiContext } from "./ApiContext";
 import { getDataFlow, getDataFlowColorClassName, handleResponse } from "../utils/utils";
-import RingChart from "./graphs/RingChart";
-import AreaLineChart from "./graphs/AreaLineChart";
+import RingChart from "./graphics/RingChart";
+import AreaLineChart from "./graphics/AreaLineChart";
 import { closePopup, firePopup } from "./alert_components/Alert/CustomAlert";
 import { Fallback } from "./Fallback";
 

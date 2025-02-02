@@ -6,6 +6,7 @@
 #about-us {
     background-color: #1e416c;
     border-radius: .5em;
+    padding: .5vw 1.5vw;
     font-size: var(--fnt-sz016);
     border: 1px solid #1e416c;
     color: #fff;

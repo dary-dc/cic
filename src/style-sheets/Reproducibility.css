@@ -22,6 +22,23 @@
     justify-content: center;
     align-items: center;
 }
+.cv-label{
+    color: #fff;
+    background-color: #3b3baf;
+    height: 2vw;
+    padding: .4vw;
+    border-radius: .4vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: flex-start;
+    width: 4vw;
+    margin-top: 2vw;
+}
+.not-worked-day{
+    background-color:  #ff0000da;
+}
+
 .active-day{
     background-color:  rgb(40, 30, 109);
 }

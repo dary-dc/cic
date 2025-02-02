@@ -101,7 +101,7 @@ export const CustomSelect = ({ customClassName,onChange,identifier,name,selected
             //need optimize with the scroll listener
             if(custom_select_header.getBoundingClientRect().y < 750 && custom_select_header.getBoundingClientRect().y > 400){
                 custom_select_dropdown.style.flexDirection = "column-reverse";
-                custom_select_dropdown.style.transform = "translateY(-115%)";
+                custom_select_dropdown.style.transform = "translateY(-108%)";
             }else{
                 custom_select_dropdown.style.flexDirection = "column";
                 custom_select_dropdown.style.transform = "translateY(0)";
@@ -113,7 +113,7 @@ export const CustomSelect = ({ customClassName,onChange,identifier,name,selected
     }
 
     const recalculateMinHeight = (element,childrenCount) => {
-        element.style.minHeight = childrenCount > 6 ? "15vw" : ((searchable ? 3 : 0) + (childrenCount * 4) + "vw");
+        element.style.minHeight = childrenCount > 6 ? "15vw" : ((searchable ? 3 : 0) + (childrenCount * 2.4) + "vw");
     }
 
     document.addEventListener("scroll",(e) => {
@@ -124,7 +124,7 @@ export const CustomSelect = ({ customClassName,onChange,identifier,name,selected
         if(custom_select_header && custom_select_dropdown){
             if(custom_select_header.getBoundingClientRect().y < 750 && custom_select_header.getBoundingClientRect().y > 400){
                 custom_select_dropdown.style.flexDirection = "column-reverse";
-                custom_select_dropdown.style.transform = "translateY(-115%)";
+                custom_select_dropdown.style.transform = "translateY(-108%)";
             }else{
                 custom_select_dropdown.style.flexDirection = "column";
                 custom_select_dropdown.style.transform = "translateY(0)";
@@ -147,30 +147,32 @@ export const CustomSelect = ({ customClassName,onChange,identifier,name,selected
     },[selectedValueText,selectedValue])
     
     return(
-        <div className={`custom-select-container ${classes}`}>
-            <div name={name} ref={ customSelectMainRef } id={`custom-select${ID}`} onClick={ handleDropdownVisibility } className={`small-width custom-select ${ identifier !== undefined ? identifier : "" } ${ name !== undefined ? name : "" }`}>
+        <div ref={ customSelectMainRef } className={`custom-select-container ${classes}`}>
+            <div  tabIndex="0" name={name}  id={`custom-select${ID}`} onClick={ handleDropdownVisibility } className={`small-width custom-select ${ identifier !== undefined ? identifier : "" } ${ name !== undefined ? name : "" }`}>
                 <div className="custom-select-flex-header-content" >
                     <span ref={ placeholderRef } className="custom-select-placeholder" id={`custom-select-placeholder${ID}`} name={ name } value={placeholder}>{data?.length ? placeholder ?? "Sin Opciones" : "Sin Opciones"}</span>
+                    {/* <span ref={ placeholderRef } className="custom-select-placeholder" id={`custom-select-placeholder${ID}`} value={placeholder}>{selectedValue ?? placeholder}</span> */}
                     <CustomArrowSvgComponent needRotate={dropdownVisible}/>
                 </div>
             </div>
             <ul id={`custom-select-dropdown${ID}`} ref={ customSelectDropdownRef } className={`custom-select-dropdown-content ${dropdownVisible ? "dropdown-visible" : ""}`}>
                 {
                 searchable &&
-                <li className="custom-select-search-bar-container">
-                    <input onInput={handleSearch} className="search-bar" id={`search-bar${ID}`} type="text" placeholder={placeholderSearchBar}/>
-                </li>
+                    <li className="custom-select-search-bar-container">
+                        <input onInput={handleSearch} className="search-bar" id={`search-bar${ID}`} type="text" placeholder={placeholderSearchBar}/>
+                    </li>
                 }
                 {
                     data?.length > 0 ? 
                         <div className="dropdown-content-overflow">
                             {
-                            data.map((d) => {
+                            data.map((d, index) => {
                                 if(d.value === selectedValue)
                                     selectedValueText = d.text;
-
+                                
+                                
                             return (
-                                <li name={name} key={uuid()} value={d.value} className="custom-select-dropdown-option" onClick={handleOptionClick}>
+                                <li data-index={index} name={name} {...d.customAttributes} key={uuid()} value={d.value} className="custom-select-dropdown-option" onClick={handleOptionClick}>
                                     {d.text}
                                 </li>
                                 )

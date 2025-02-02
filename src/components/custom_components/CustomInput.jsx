@@ -21,8 +21,9 @@ export const CustomInput = ({ value,onChange,name,handleChange,readOnly }) => {
     },[value]);
 
     const handleInputChange = (e) => {
-        setValueData(e.target.value);
-        handleChange(e)
+        console.log(handleChange(e));
+        if(handleChange(e))
+            setValueData(e.target.value);
     }
     
     const handleChangeDate = (date) => {

@@ -10,6 +10,8 @@ import warningIcon from "./resources/images/warning.svg";
 import questionIcon from "./resources/images/question.svg";
 import { ErrorSvg } from "../../svg_components/ErrorSvg";
 import { SuccessSvg } from "../../svg_components/SuccessSvg";
+import { WarningSvg } from "../../svg_components/WarningSvg";
+import { InfoSvg } from "../../svg_components/InfoSvg";
 
 var alertRoot = null; 
 var alertContainer = null;
@@ -26,11 +28,13 @@ const icons = {
 const svgIcons = {
   error: <ErrorSvg/>,
   success: <SuccessSvg/>,
+  info: <InfoSvg/>,
+  warning: <WarningSvg/>,
 };
 
 
-const Popup = ({ html,title,icon,draggable,showCancelButton,showDenyButton,showConfirmButton,cancelButtonText,denyButtontext,confirmButtonText,footer,isHtmlComponent,didOpen,onCanceled,onDenied,onAccepted }) => {
-  const [isOpen, setIsOpen] = React.useState(true);
+const Popup = ({ html,title,icon,type,draggable,showCancelButton,showDenyButton,showConfirmButton,cancelButtonText,denyButtontext,confirmButtonText,footer,isHtmlComponent,didOpen,onCanceled,onDenied,onAccepted }) => {
+  const [isOpen, setIsOpen] = useState(true);
   const userPopup = useRef(undefined);
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -110,26 +114,31 @@ const Popup = ({ html,title,icon,draggable,showCancelButton,showDenyButton,showC
       <div onClick={handleClickPopup} className="popup-container">
         <div ref={userPopup} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onDragEnd={handleDragEnd} className={`popup ${isOpen ? "popup-shown" : "popup-hide"} ${isDragging ? "popup-dragging" : ""} ${draggable ? "popup-draggable" : ""}`} >
           { 
-            svgIcons?.[icon] &&
+            svgIcons?.[icon] ?
             <div className={`alert-icon popup-icon alert-${icon}`}>
               { svgIcons?.[icon] }
             </div>
-          }
-          
-          {
-            title?.length && 
-              <div className="popup-title">
-                <span>{ title }</span>
-              </div>
-          }
-          
-          {
-          isHtmlComponent ?
-          <div className="popup-content" >{ html }</div>
             :
-          <div className="popup-content" dangerouslySetInnerHTML={{ __html: html }} />
-            
+            <div className={`alert-icon popup-icon alert-${type}`}>
+              { svgIcons?.[type] }
+            </div>
           }
+          <div className="popup-main-content">
+            {
+              title?.length && 
+                <div className="popup-title">
+                  <span>{ title }</span>
+                </div>
+            }
+            
+            {
+            isHtmlComponent ?
+            <div className="popup-content" >{ html }</div>
+              :
+            <div className="popup-content" dangerouslySetInnerHTML={{ __html: html }} />
+              
+            }
+          </div>
 
           <div className="popup-buttons">
             {
@@ -242,32 +251,40 @@ export const fireToast = ({ text, duration, type }) => {
     alertRoot.render(<Alert text={text} duration={duration} type={type} onClose={removeRoot} />); 
 };
 
-export const firePopup = ({ html = "",title = undefined,icon = undefined,showCancelButton = false,showDenyButton = false,showConfirmButton = true,cancelButtonText = undefined,denyButtontext = undefined,confirmButtonText = undefined,footer=undefined,draggable=false,isHtmlComponent=false,didOpen=undefined,onCanceled=undefined,onDenied=undefined,onAccepted=undefined}) => { 
+export const firePopup = ({ html = "",title = undefined,type = undefined,icon = undefined,showCancelButton = false,showDenyButton = false,showConfirmButton = true,cancelButtonText = undefined,denyButtontext = undefined,confirmButtonText = undefined,footer=undefined,draggable=false,isHtmlComponent=false,didOpen=undefined,onCanceled=undefined,onDenied=undefined,onAccepted=undefined}) => { 
   removeRoot();
   checkRoot();
 
   alertRoot.render(
     <Popup 
-    html={html} title={title} 
-    icon={icon} footer={footer} 
-    showCancelButton={showCancelButton} 
-    showConfirmButton={showConfirmButton} 
-    cancelButtonText={cancelButtonText}
-    denyButtontext={denyButtontext}
-    confirmButtonText={confirmButtonText}
-    showDenyButton={showDenyButton} onClose={removeRoot} 
-    draggable={draggable} isHtmlComponent={isHtmlComponent}
-    didOpen={didOpen} onCanceled={onCanceled} onAccepted={onAccepted} onDenied={onDenied}
+      html={html} 
+      title={title} 
+      icon={icon}
+      type={type}
+      footer={footer} 
+      showCancelButton={showCancelButton} 
+      showConfirmButton={showConfirmButton} 
+      cancelButtonText={cancelButtonText}
+      denyButtontext={denyButtontext}
+      confirmButtonText={confirmButtonText}
+      showDenyButton={showDenyButton} 
+      onClose={removeRoot} 
+      draggable={draggable} 
+      isHtmlComponent={isHtmlComponent}
+      didOpen={didOpen} 
+      onCanceled={onCanceled} 
+      onAccepted={onAccepted} 
+      onDenied={onDenied}
     />); 
 };
 
-export const closePopup = ({minTime = 0,onClose = undefined}) => { 
+export const closePopup = ({minTime = 0,onClose = undefined} = {}) => { 
 
   setTimeout(() => {
     removeRoot();
     checkRoot();
 
-    if(onClose) onClose();
+    // if(onClose) onClose();
   },minTime);
 };
 

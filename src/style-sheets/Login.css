@@ -99,7 +99,7 @@ input.inputLogin{
     outline: none;   
     background-color: rgb(248, 248, 248);
 }
-div.ContInpPlaceholderLog
+div.container-Input-placeholderLog
 {
     width: 100%;
     box-shadow: 0 2px 4px rgb(201, 201, 201);
@@ -109,14 +109,14 @@ div.ContInpPlaceholderLog
     justify-content: flex-start;
     align-items: center;
 }
-div.ContInpPlaceholderLog .placeholder
+div.container-Input-placeholderLog .placeholder
 {
     margin-left: 1.8em;
     margin-top: .2em;
 }
 
-div.ContInpPlaceholderLog input:valid~.placeholder,
-div.ContInpPlaceholderLog input:focus~.placeholder{
+div.container-Input-placeholderLog input:valid~.placeholder,
+div.container-Input-placeholderLog input:focus~.placeholder{
     display: block;
     margin-left: 1em;
     margin-top: -5em;

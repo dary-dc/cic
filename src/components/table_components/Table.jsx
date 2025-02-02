@@ -1,7 +1,7 @@
 import { InputRow } from "./InputRow";
 import { TotalizerRow } from "./TotalizerRow";
 import { v4 as uuid } from "uuid";
-import { useEffect, useRef, useState} from "react";
+import { memo, useEffect, useRef, useState} from "react";
 import { AddSvg } from "../svg_components/AddSvg";
 // import { Alert }  from "../alert_components/Alert/Alert.js";
 import { CustomSelect } from "../custom_components/custom_select_component/CustomSelect.jsx";
@@ -11,7 +11,7 @@ import { TableHeader } from "./TableHeader.jsx";
 import "./table-stylesheets/Table.css";
 import { fireToast } from "../alert_components/Alert/CustomAlert.jsx";
 
-export const Table = ({columns,buttons,data,tableTitle}) => {
+export const Table = memo(({columns,buttons,data,tableTitle}) => {
     var table_id = uuid(); 
     var dataRowsTemp = {};
 
@@ -40,7 +40,7 @@ export const Table = ({columns,buttons,data,tableTitle}) => {
         let dynamicColumnsTemp = [];
         let columnHeadersWithoutCalculableTemp = {};
 
-        for(let i = 0;i < columns.length;i++){
+        for(let i = 0;i < columns?.length;i++){
             let data = columns[i];
             if(data.hasOwnProperty('name') && data.hasOwnProperty('label')) {
                 columnHeadersTemp.push({
@@ -289,12 +289,37 @@ export const Table = ({columns,buttons,data,tableTitle}) => {
         return dataRowsTemp;
     }
 
+    const isValidField = (e,type) => {
+        switch(type){
+            case "only-numbers":
+                // e.target.value = e.target.value.replaceAll(/[a-z]/ig,"");
+                return /^[0-9]*$/ig.test(e.target.value)
+            default:
+                return false;
+        }
+    }
+
     const handleChange = (e,fieldValueName,name = undefined) => {
+        // WITH THIS e.target.attributes.name YOU DON'T NEED fieldValueName 
         Object.assign(dataRowsTemp,dataRows);
         let row = e.target.closest('.row');
         let rowNumber = `row${Array.from(dataTableBody.current.children).indexOf(row)}`;        
         
+        if(optionsPerName[e.target.name]?.validator){
+            if(!isValidField(e,optionsPerName[e.target.name]?.validator)){
+                return false;
+            }
+        }
+
         if(name){
+            let attributes = e.target.attributes;
+            let bannedAttributes = ["class","type","style"];
+            for(let i = 0;i < attributes.length;i++){
+                if(!bannedAttributes.includes(attributes.item(i)).name){
+                    dataRowsTemp[rowNumber][attributes.item(i).name] = attributes.item(i).nodeValue;
+                }
+            }
+            
             dataRowsTemp[rowNumber][fieldValueName] = e.target.value;
             dataRowsTemp[rowNumber][name] = e.target.innerText;
         }else
@@ -310,6 +335,7 @@ export const Table = ({columns,buttons,data,tableTitle}) => {
         }
 
         handleDynamicColumns();
+        return true;
 
     }
 
@@ -347,6 +373,8 @@ export const Table = ({columns,buttons,data,tableTitle}) => {
                 isEquation = true;
             }            
         }
+        if(interpolatedEquation.includes("NaN") || interpolatedEquation.includes("undefined") ) return 0;
+
         if(isEquation) result = eval(interpolatedEquation);
         console.debug("EQUATION -> ",interpolatedEquation," | RESULT -> ",result)
         return result;
@@ -437,29 +465,38 @@ export const Table = ({columns,buttons,data,tableTitle}) => {
 
     useEffect(() => {
         let deleteIndex = undefined;
-        buttons.forEach((d,i) => {
-            if(d.action == "delete"){
-                setDeleteOptionsObject(d);                
-                deleteIndex = i;
-            } 
-        })
 
-        if(deleteIndex)
-            buttons = buttons.splice(deleteIndex,1)
+        if(buttons){
+            buttons.forEach((d,i) => {
+                if(d.action == "delete"){
+                    setDeleteOptionsObject(d);                
+                    deleteIndex = i;
+                } 
+            })
+    
+            if(deleteIndex)
+                buttons = buttons.splice(deleteIndex,1)
+        }
     },[buttons])
 
 
     return (
     <div id='custom-table'>
-            <TableHeader setActualRows={setActualRows} dataRowsToMap={ dataRowsToMap } setDataRowsToMap={ setDataRowsToMap } dataRows={dataRows} table_id={table_id} columnHeaders={columnHeaders} tableTitle={tableTitle} handleDelete={handleDelete} deleteOptionsObject={deleteOptionsObject}/>                
+            <TableHeader buttons={buttons} setActualRows={setActualRows} dataRowsToMap={ dataRowsToMap } setDataRowsToMap={ setDataRowsToMap } dataRows={dataRows} table_id={table_id} columnHeaders={columnHeaders} tableTitle={tableTitle} handleDelete={handleDelete} deleteOptionsObject={deleteOptionsObject}/>                
             <div id="data-container" ref={dataTableBody} className="data-container tbody">
                 {
                     Object.keys(dataRowsToMap).length === 0 ?
                         <div  className="no-data-column">
                             <div className="table-no-data-row">
-                                <p className="no-data-paragraph">No hay datos por el momento</p> <div onClick={handleRow} className="update-data-icons add-row">
-                                    <AddSvg/>
-                                </div>
+                                <p className="no-data-paragraph">No hay datos por el momento</p> 
+                                {
+                                    buttons ? 
+                                        <div onClick={handleRow} className="update-data-icons add-row">
+                                            <AddSvg/>
+                                        </div> 
+                                        :
+                                        ""
+                                }
                             </div>
                         </div> 
                         :
@@ -468,10 +505,11 @@ export const Table = ({columns,buttons,data,tableTitle}) => {
                             let id = uuid();
 
                             let dataValues = Object.values(data)
-                            let isANewRow = false;
-
+                            let isANewRow = !Object.keys(data).length || false;
+                            
+                                                        
                             for(let i = 0;i < dataValues.length;i++){
-                                if(dataValues[i] == ""){
+                                if(dataValues[i].length === 0){
                                     isANewRow = true; 
                                     break;
                                 }
@@ -485,7 +523,7 @@ export const Table = ({columns,buttons,data,tableTitle}) => {
             </div>
             {
                 Object.keys(totalizers).length && Object.keys(dataRowsToMap).length ? 
-                <TotalizerRow totalizers={totalizers} columns={columns} dataRows={dataRows} data={data}/> 
+                <TotalizerRow buttons={buttons} totalizers={totalizers} columns={columns} dataRows={dataRows} data={data}/> 
                 : 
                 <></>
             }
@@ -517,4 +555,4 @@ export const Table = ({columns,buttons,data,tableTitle}) => {
             </div>
         </div>    
     )
-}
+})

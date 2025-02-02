@@ -42,6 +42,7 @@
     text-decoration: none;
     color: #000000;
     height: 3vw;
+    font-size: var(--fnt-sz014);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -269,10 +270,6 @@
 
 .BurgerMenu {
     display: none;
-}
-
-.dropdown__content .item {
-    font-size: var(--fnt-sz012);
 }
 
 .standard-button{

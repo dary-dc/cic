@@ -1,0 +1,575 @@
+
+  /* Custom Fields Section */
+  .custom-fields-section {
+    margin-top: 30px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f0f8ff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-fields-title {
+    color: #007bff;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .no-custom-fields-text {
+    color: #888;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  /* .custom-field-row {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #fefefe;
+    border-radius: 5px;
+    transition: box-shadow 0.3s;
+} */
+  .custom-field-input {
+    /* width: 10%; */
+    /* width: 13%; */
+    text-align: left;
+    /* margin: 1em; */
+    margin: 0;
+  }
+
+  .custom-field-input.options {
+    height: auto;
+    display: grid;
+    max-height: 45vw;
+  }
+
+  .custom-field-input label {
+    display: block;
+    /* font-size: 0.9rem; */
+    font-size: 1.2em;
+    color: #555;
+    /* margin-bottom: 5px; */
+    position: relative;
+    width: fit-content;
+    padding: 1.5em 0;
+    margin: 0 auto;
+  }
+  
+  .custom-field-input input,
+  .custom-field-input select {
+    width: 100%;
+    padding: 0 .8vw;
+    border-radius: .4em;
+    font-size: 1em;
+    transition: all 0.3s;
+    height: 90%;
+  }
+
+  .custom-field-input label:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+
+  .form-field-input:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    top: 75%;
+    left: 20%;
+    width: 100%;
+  }
+
+  .form-field-input input {
+    border: 1px solid rgba(59, 59, 175, 0.767) !important;
+    background-color: #fff !important;
+    font-size: 1em;
+    padding: 0;
+    text-align: center;
+    border-radius: .5em;
+  }
+
+  .tooltip {
+    visibility: hidden;
+    /* background-color: #555; */
+    background-color: #333;
+    color: #fff !important;
+    text-align: center;
+    border-radius: 6px;
+    padding: .5em;
+    position: absolute;
+    z-index: 1;
+    /* bottom: 130%; */
+    top: 105%;
+    /* Center horizontally */
+    /* left: 50%;  */
+    /* transform: translateX(-50%);  */
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    /* Two lines of text */
+    /* max-height: calc(2 * 1.2em);  */
+    line-height: 1.2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    /* width: fit-content; */
+    /* min-width: 150px; */
+    /* No cap on width */
+    /* max-width: 300px;  */
+  }
+
+  /* TODO: to fix */
+.tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+  /* Add Custom Field Button */
+  .add-custom-field-button {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+    background-color: rgb(59, 59, 175);;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: width 0.3s, height 0.3s ease;
+    height: 2.7vw;
+    padding: .7vw;
+    width: 2.7vw;
+  }
+  
+  .add-custom-field-button svg {
+    fill: white;
+    width: 100%;
+    margin: auto;
+  }
+  
+  .add-custom-field-button:hover {
+    background-color: rgb(59, 59, 175);
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgb(59, 59, 175);
+  }
+  
+  /* Draggable Custom Fields */
+.custom-field-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+    margin: .8%;
+    padding: 15% 8%;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  .custom-field-row > div {
+    border: 1px rgb(59, 59, 175);
+  }
+
+  .custom-field-row.Select .custom-field-input .floating-label-group .draggable-input {
+    background-color: rgb(59, 59, 175);
+    height: 72%;
+    cursor: move;
+    display: flex;
+  }
+  .custom-field-row.Select .custom-field-input .floating-label-group .draggable-input input {
+    width: 78%;
+    /* margin-left: 15%; */
+    height: 100%;
+  }
+  .custom-field-input.options .custom-select-field-actions button svg{
+    width: 1vw;
+    height: 1vw;
+    fill: #fff;
+  }
+
+  .custom-field-input.options .custom-select-field-actions button {
+    outline: none;
+    border: none;
+    border-radius: .3em;
+    height: 2vw;
+    width: 2vw;
+    padding: 0;
+    background-color: rgb(59, 59, 175);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+  }
+
+  .custom-field-input.options .custom-select-field-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .5vw;
+    margin-top: 1vw;
+  }
+
+  .add-select-option:hover {
+    filter: saturate(60%);
+  }
+  .save-select-option:hover {
+    filter: saturate(60%);
+  }
+
+  .delete-select-option svg{
+    fill: #fff;
+    height: 2em;
+  }
+  .delete-select-option {
+    width: 2.475em;
+    height: 2.475em;
+    padding: 0;
+    background-color: rgb(59, 59, 175);
+    display: grid;
+    place-items: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: none;
+  }
+
+  .delete-select-option:hover {
+    filter: saturate(60%);
+  }
+  .select-option-move-svg {
+    width: 12%;
+    height: 80%;
+    fill: #fff;
+    margin: auto 0;
+  }
+
+  .custom-field-row.draggable {
+    cursor: grab;
+  }
+  
+  .custom-field-row.draggable:active {
+    cursor: grabbing;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .custom-field-builder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  .trash-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    /* display: none; */
+  }
+  
+  .trash-button svg {
+    fill: #ff4d4d;
+    /* width: 25px;
+    height: 25px; */
+    height: 1.6vw;;
+    transition: transform 0.2s ease, opacity 0.3s;
+  }
+  
+  .trash-button:hover svg {
+    transform: scale(.8);
+    opacity: 0.9;
+  }
+  
+  
+  .add-to-form-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    /* display: none; */
+  }
+  
+  .add-to-form-button svg {
+    fill: green;
+    /* width: 30px;
+    height: 30px; */
+    height: 1.2vw;
+    transition: transform 0.2s ease, opacity 0.3s;
+  }
+  
+  .add-to-form-button:hover svg {
+    transform: scale(1.3);
+    opacity: 0.9;
+  }
+
+  .custom-field-row:hover {
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+  }
+
+  .custom-field-row:hover .trash-button,
+  .form-custom-field:hover .trash-button {
+    display: inline-block;
+  }
+  
+  /* Form Fields Section */
+  .form-fields-section {
+    border: 1px dashed rgb(59, 59, 175);;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+    transition: background-color 0.3s;
+    height: fit-content;
+  }
+  
+  .form-fields-section:hover {
+    /* background-color: #eef6ff; */
+    background-color: rgba(59, 59, 175, .08);
+  }
+  
+  .form-custom-field {
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: .2em 1em;
+    border: 1px solid #ddd;
+    border-radius: 1em;
+    background-color: #fff;
+    margin-bottom: 10px;
+    transition: box-shadow 0.3s ease;
+    cursor: move;
+    width: 100%;
+    transition: all 0.3s;
+    height: 5.5em;
+    gap: 5%;
+  }
+
+  .form-custom-field .form-field-input .custom-template-dropdown {
+    background-color: #fff;
+    color: rgb(59, 59, 175);
+    border: 2px solid rgb(59, 59, 175);
+    padding: 0 .8vw;
+    font-size: 1em;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+    transition: border-color 0.3s ease;
+    height: 72%;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* .form-custom-field .custom-dropdown {
+    width: 100%;
+  } */
+
+  .form-custom-field.focus-class {
+    background-color: rgba(150, 150, 238, 0.2);
+  }
+  
+  .form-custom-field.error {
+    border: 2px solid red;
+    box-shadow: 0px 0px 3px red;
+  }
+
+  /* .form-custom-field.error:hover {
+    border: 2px solid red;
+    box-shadow: 0px 2px 4px red;
+  } */
+
+  .form-custom-field:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .form-custom-field span {
+    font-size: 1rem;
+    color: #333;
+  }
+
+  .form-custom-field h4 {
+    display: grid;
+    place-items: center;
+    width: 30%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .form-field-input {
+    height: 60%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .form-field-input .custom-dropdown {
+    position: relative;
+    width: 100%;
+    height: 72%;
+  }
+  .form-field-input .custom-dropdown > button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    font-size: 1em;
+    align-items: center;
+    color: #665e5e;
+    padding: 0 1vw;
+  }
+  .form-field-input .custom-dropdown > button > svg {
+    margin-left: auto;
+    /* margin-right: 1vw; */
+  }
+  .form-field-input .control-processes-list {
+    display: none;
+    position: absolute;
+    top: 105%;
+    /* left: -10%; */
+    background-color: #fff;
+    border-radius: 4px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid rgb(36, 36, 98);
+    overflow-y: scroll;
+    max-height: 700%;  
+  }
+  /* .sort-type-button:hover + .control-processes-list, */
+  /* .control-processes-list:hover { */
+  .form-field-input .control-processes-list.visible {
+    display: block;
+  }
+  .form-field-input .control-processes-list li {
+    width: 100%;
+    padding: 14px 0px;
+    cursor: pointer;
+    /* transition: background-color 0.3s, transform 0.2s; */
+    color: #000;
+  }
+  .form-field-input .control-processes-list li:hover {
+    color: #fff;
+    background-color: rgb(36, 36, 98);
+    /* transform: scale(1.05); */
+  }
+
+  .add-field-indicator {
+    cursor: pointer;
+  }
+
+  .custom-field-controls {
+    /* width: 10%; */
+    /* width: 12%; */
+    margin: 0 .4em;
+    margin: 0;
+  }
+
+  .custom-field-controls > select, .custom-field-input select {
+    background-color: #fff;
+    color: rgb(59, 59, 175);
+    border: 2px solid rgb(59, 59, 175);
+    border-radius: .6em;
+    padding: 0 1.8vw;
+    font-size: 1em;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+    transition: border-color 0.3s ease;
+    height: 90%;
+  }
+
+  .custom-field-controls > select > option:hover {
+    border-color: rgb(59, 59, 175);
+  }
+
+  .custom-field-controls > select:focus, .custom-field-input select:focus {
+    border: 2px solid rgb(59, 59, 175);
+    box-shadow: 0 0 8px rgb(59, 59, 175);
+  }
+
+  /* Empty State */
+  .no-fields-text {
+    font-size: 1rem;
+    color: #888;
+    /* margin-top: 10px;
+    width: 140%; */
+  }
+  
+  .add-new-field-cell {
+    display: grid;
+    place-items: center;
+    height: 6.5vw;
+  }
+
+  .field-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-top: 10px; */
+    /* width: 100%; */
+    /* margin-right: 1em; */
+  }
+  
+  .field-actions .trash-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .sidebar-icon {
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .sidebar-icon:hover {
+    transform: scale(1.1) rotate(15deg);
+  }
+  
+  .form-field-input .units {
+    margin-left: 5px;
+    color: #666;
+    font-size: 0.9em;
+  }
+  
+  .form-field-input input:invalid {
+    border-color: red;
+  }
+
+  /* .form-fields-container {
+    display: grid;
+    grid-template-columns: repeat(2, 45%);
+    gap: 1em;
+    justify-content: center;
+  } */

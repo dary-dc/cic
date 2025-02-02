@@ -41,6 +41,12 @@ export const NavBar = ({navigate,data}) => {
     }
       
     const handleIdentityVisibility = (e) => {
+        if (window.scrollY === 0) {
+            setNeedHideScrollButton(true);
+        } else {
+            setNeedHideScrollButton(false);
+        }
+
         const hide = window.scrollY > 0;
         setBottomShadowActive(hide);
     }
@@ -86,18 +92,10 @@ export const NavBar = ({navigate,data}) => {
         }
     }
 
-    window.addEventListener("scroll",(e) => {
-        if (window.scrollY === 0) {
-            setNeedHideScrollButton(true);
-        } else {
-            setNeedHideScrollButton(false);
-        }
-    })
     useEffect(() => {
         window.removeEventListener("click",handleClickMenu);
         window.addEventListener("click",handleClickMenu);
-        
-        
+
         window.addEventListener('scroll', handleIdentityVisibility);
         return () => {
             window.removeEventListener('scroll',handleIdentityVisibility);
@@ -175,7 +173,7 @@ export const NavBar = ({navigate,data}) => {
                             {/* Profile */}
                             <div ref={ profileMenuContent } className="dropdown__list user-navbar-container" >
                                 <div className="container-user">
-                                    <div className="user-greeting">Hello {greeting.word}</div>
+                                    <div className="user-greeting">Hola {greeting.word}</div>
                                     <div className="user-name-letter">
                                         <span className="dropdown__span">{greeting.letter}</span>
                                     </div>
@@ -196,7 +194,7 @@ export const NavBar = ({navigate,data}) => {
                                         setUserMenuVisible(false);
                                         navigate("/");
                                     }}>
-                                    Exit
+                                    Salir
                                     </div>
                                     <div className="user-menu-button" onClick={() => navigate("Configuracion de Perfil")}>Configurar Perfil</div>
                                 </div>

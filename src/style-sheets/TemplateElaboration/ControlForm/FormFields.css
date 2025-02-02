@@ -1,0 +1,39 @@
+/* Add this CSS to your stylesheet */
+
+/* Style the number input and its spinner buttons */
+input[type="number"] {
+  position: relative;
+  /* Make room for the larger buttons */
+  /* padding-right: 25px;  */
+}
+
+/* Style the spinner buttons */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  background: #070505;
+  width: 24px;
+  height: 50%;
+  position: absolute;
+  right: 2px;
+  border-radius: 2px;
+  cursor: pointer;
+  opacity: 1;
+}
+
+/* Increase button */
+input[type="number"]::-webkit-inner-spin-button {
+  background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+}
+
+/* Style on hover */
+input[type="number"]::-webkit-outer-spin-button:hover,
+input[type="number"]::-webkit-inner-spin-button:hover {
+  background-color: #070505;
+}
+
+/* Style on active/pressed */
+input[type="number"]::-webkit-outer-spin-button:active,
+input[type="number"]::-webkit-inner-spin-button:active {
+  background-color: #150c0c;
+}

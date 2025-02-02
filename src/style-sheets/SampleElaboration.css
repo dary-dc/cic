@@ -1,0 +1,139 @@
+.sample-elaboration-form-container{
+    margin-top: 5%;
+    min-height: 45vw;
+}
+
+/* STEPS FORM */
+.steps-form{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.steps-navigate-buttons svg{
+    fill: #fff;
+}
+.steps-navigate-buttons#form-action-button{
+    width: max-content;
+    padding: .5vw 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .4vw;
+}
+
+.navigate-container{
+    display: flex;
+    gap: .5vw;
+    margin: auto 11vw auto 0;
+    justify-content: flex-end;
+    transform: translateY(4vw);
+
+}
+
+.step-item{
+    font-size: 1.5em;
+    border-radius: 50%;
+    padding: 1.5vw;
+    width: 2vw;
+    height: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #7474744f;
+    color: #525252e8;
+}
+
+.actual-step{
+    background-color: #242462;
+    color: #fff;
+}
+
+.gray-line{
+    height: .3vw;
+    width: 100%;
+    background-color: #7474744f;
+}
+
+.blue-line{
+    height: .3vw;
+    width: 100%;
+    background-color: #242462;
+}
+
+#form-action-button.disabled-button{
+    background-color: #5252528c;
+    border:1px solid #a0a0a0;
+    color: #f1f1f1da;
+}
+
+
+/* TEMPLATE FIELD RENDERER */
+.user-creator-container{
+    background-color: #242462;
+    color: #fff;
+    height: 2.5vw;
+    width: 5vw;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2vw;
+    font-size: 1.4em;
+}
+
+.custom-field-header{
+    width: 100%;
+    margin-bottom: 5vw;
+    display: flex;
+    gap: 3vw;
+}
+
+.template-header-title{
+    font-weight: 600;
+    font-size: 2em;
+}
+
+.main-sample-form{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 2vw;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.5vw;
+}
+
+.form-container{
+    display: grid;
+    width: 40%;
+    grid-template-columns: repeat(3,1fr );
+    column-gap: 2vw;
+    row-gap: 1.5vw;
+    flex-wrap: wrap;
+}
+
+.form-container .custom-select-container{
+    width: 100%;
+}
+.container-Input-placeholder.custom-field-container .placeholder{
+    margin-left: 1vw
+}
+.container-Input-placeholder.custom-field-container input {
+    font-size: 1.1em;
+}
+.container-Input-placeholder.custom-field-container .custom-select{
+    font-size: 1em;
+}
+.container-Input-placeholder.custom-field-container .custom-select-placeholder{
+    font-size: .9em;
+}
+
+.container-Input-placeholder.custom-field-container input:valid ~ .placeholder,
+.container-Input-placeholder.custom-field-container input:focus ~ .placeholder{
+    margin-left: 1.3vw;
+}

@@ -1,6 +1,7 @@
 .custom-select-container{
-    max-width: 15em;
+    /* max-width: 15em; */
     position: relative;
+    width: 100%;
 }
 .custom-select{
     /* --principal_color: rgb(93, 93, 255); */
@@ -13,20 +14,22 @@
 }
 
 .custom-select-triangle-icon{
-    /* width: 8%;      */
-    width: 1em;     
     fill: var(--principal_color);
     transition: transform .3s;
+    height: 1em;
 }
 .custom-select-triangle-icon.rotate{
     transform: rotate(180deg);
 }
+
 .custom-select-flex-header-content{
     min-height: 1.44em;
     display: grid;
-    grid-template-columns: 80% 20%;
-    justify-content: space-around;
+    grid-template-columns: 90% 10%;
+    /* grid-template-columns: 80% 20%; */
+    justify-content: center;
     align-items: center;
+    gap: .5em;
     height: 100%;
 }
 
@@ -43,7 +46,6 @@
     overflow-y: scroll;
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
-    margin-top: 1em;
     width: 100%;
 }
 li.no-results{
@@ -58,7 +60,7 @@ li.no-results{
     flex-direction: column;
     border: 1px solid var(--principal_color);
     color: var(--principal_color);
-    z-index: 90;
+    z-index: 10;
     background-color: #fff;
     justify-content: center;
     max-height: 30%;
@@ -74,7 +76,7 @@ li.no-results{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: .7vw 0;
+    padding: .7vw .2vw;
 }
 .custom-select-dropdown-option:hover{
     background-color: var(--principal_color);
@@ -99,6 +101,7 @@ div.search input {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     padding: 0.4vw 0.6vw;
 
 }
@@ -119,6 +122,5 @@ label.placeholder.form-label{
     color: var(--principal_color);
 }
 .custom-select-placeholder{
-    text-align: left;
-    padding-left: .8    vw;
+    text-align: center;
 }

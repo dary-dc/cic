@@ -4,7 +4,7 @@ import { useEffect, useState} from "react";
 import { CustomLabel } from "../custom_components/CustomLabel";
 import { CustomCheckbox } from "../custom_components/CustomCheckbox";
 
-export const TotalizerRow = ({ columns,dataRows,data,totalizers }) => {
+export const TotalizerRow = ({ columns,buttons,dataRows,data,totalizers }) => {
 
     const handleTotalizers = (column) => {
         if(totalizers.hasOwnProperty(column.name)){
@@ -35,7 +35,7 @@ export const TotalizerRow = ({ columns,dataRows,data,totalizers }) => {
     }
     return (
         <>
-            <div className="row totalizer-row table-grid-container">
+            <div className={`row totalizer-row table-grid-container ${buttons ? "table-grid-container-reduced" : ""}`}>
                 <div className="table-flex-container totalizer-cell">Total.</div>
                 {
                     columns.map((column,index) => {

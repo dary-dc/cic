@@ -1,13 +1,14 @@
 import * as XLSX from 'xlsx';
+import ReactDOMServer from 'react-dom/server';
 
 export const exportTableToExcel = (e, dataRows, columnHeaders, tableTitle) => {
     const wb = XLSX.utils.book_new(); 
 
-    const headers = columnHeaders.map(header => header.label);
+    const headers = columnHeaders.map(header => ReactDOMServer.renderToStaticMarkup(header.label).replaceAll(/(&nbsp;|<([^>]+)>)/ig,""));
     const keys = columnHeaders.map(header => header.name); 
 
     const ws_data = [
-        headers, // Encabezados
+        headers, 
         ...Object.keys(dataRows).map(key => {
             return keys.map(headerKey => dataRows[key][headerKey]);
         })

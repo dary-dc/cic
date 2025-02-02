@@ -118,13 +118,13 @@ export const Login = ({navigate}) => {
                 <form action="" onSubmit={login} className="formLogin" autoComplete='off'>
                     <p className="LoginP" >Login</p>
                     {(error.errorAuth || error.errorServer) && errorMsg()}
-                    <div className="ContInpPlaceholder ContInpPlaceholderLog">
-                        <input autoComplete='off' id="ci" className="no-padding inputLogin" onChange={handlerInputs} name="ci" required ></input>
+                    <div className="container-Input-placeholder container-Input-placeholderLog">
+                        <input autoComplete='off' id="ci" className="no-padding inputLogin" onChange={handlerInputs} name="ci" required  />
                         <label className="placeholder" htmlFor="ci">CI</label>
                         { <UserSvg/> } 
                     </div>
-                    <div className="ContInpPlaceholder ContInpPlaceholderLog">
-                        <input autoComplete='off' id="password" className="no-padding inputLogin"  onChange={handlerInputs} name="password" type="password" required></input>
+                    <div className="container-Input-placeholder container-Input-placeholderLog">
+                        <input autoComplete='off' id="password" className="no-padding inputLogin"  onChange={handlerInputs} name="password" type="password" required />
                         <label className="placeholder" htmlFor="password">Contraseña</label>
                         { <PasswordSvg/> }
                     </div>
