@@ -32,4 +32,5 @@ A **React & Express**-based web application designed to **manage and monitor qua
 ## 📌 To-Do
 - [ ] Implement mobile responsiveness
 
+
 💡 **Want to contribute?** Feel free to open issues!
